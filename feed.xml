@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>random[ ] - arquitectura y fabricación digital</title>
-    <link href="https://dhaslock.github.io/randomarq/feed.xml" rel="self" />
-    <link href="https://dhaslock.github.io/randomarq" />
-    <updated>2018-10-13T13:26:09+02:00</updated>
+    <link href="https://www.randomarq.es/feed.xml" rel="self" />
+    <link href="https://www.randomarq.es" />
+    <updated>2018-10-14T16:34:25+02:00</updated>
     <author>
         <name>david serrano</name>
     </author>
-    <id>https://dhaslock.github.io/randomarq</id>
+    <id>https://www.randomarq.es</id>
 
     <entry>
         <title>Ultrasonic sensor controlling some LEDs</title>
         <author>
             <name>english</name>
         </author>
-        <link href="https://dhaslock.github.io/randomarq/ultranosic-sensor-controlling-some-leds.html"/>
-        <id>https://dhaslock.github.io/randomarq/ultranosic-sensor-controlling-some-leds.html</id>
+        <link href="https://www.randomarq.es/ultranosic-sensor-controlling-some-leds.html"/>
+        <id>https://www.randomarq.es/ultranosic-sensor-controlling-some-leds.html</id>
             <category term="[EN]"/>
             <category term="Ultrasonic"/>
             <category term="LED"/>
@@ -27,40 +27,40 @@
         <updated>2018-10-13T13:16:19+02:00</updated>
             <summary>
                 <![CDATA[
-                        <img src="https://dhaslock.github.io/randomarq/media/posts/1/featured.jpg" alt="" />
+                        <img src="https://www.randomarq.es/media/posts/1/featured.jpg" alt="" />
                     In this exercise we'll be using a ultrasonic HC-SR04 sensor to control some LEDs as a prototype idea for further elements to be controled upon&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <img src="https://dhaslock.github.io/randomarq/media/posts/1/featured.jpg" alt="" />
+                    <img src="https://www.randomarq.es/media/posts/1/featured.jpg" alt="" />
                 <p>In this exercise we'll be using a ultrasonic HC-SR04 sensor to control some LEDs as a prototype idea for further elements to be controled upon the same concept.</p>
 <p>In this case, we're going to simulate that we have some kind of a "gate" of light, consisting on 4 LEDS, two of wich will be turned off when something (or somebody) approaches to less than 30 cm of them.</p>
 <p>The problem that we have in order to program our arduinos to work with this ultrasonic sensor, is that firefly doesn't have any tool to make it work. So we'll have to use a workaround. We'll use a handler and after programming the rest of the elements, we'll use the "code generator" component on firefly to save the code. Afterwards, with the arduino IDE, we'll modify the code to add the lines changing the handler for the sensor values.</p>
 <p>We'll start by opening grasshopper and inserting the first components of firefly to check the ports avaliable and to open the port where our arduino is connected.</p>
-<figure class="post__image post__image--center" ><img src="https://dhaslock.github.io/randomarq/media/posts/1/01.png" alt="01" width="1276" height="559">
+<figure class="post__image post__image--center" ><img src="https://www.randomarq.es/media/posts/1/01.png" alt="01" width="1276" height="559">
 <figcaption >check the ports avaliable first</figcaption>
 </figure>
-<figure class="post__image post__image--center" ><img src="https://dhaslock.github.io/randomarq/media/posts/1/02.png" alt="" width="1276" height="559">
+<figure class="post__image post__image--center" ><img src="https://www.randomarq.es/media/posts/1/02.png" alt="" width="1276" height="559">
 <figcaption >Open the port where you have your arduino connected</figcaption>
 </figure>
 <p>After inserting a "Uno Read" component, we attach a "number" component to the Analog Pin 0 output. This will serve us later as a handler on the code, that we'll have to substitute with the value input from the ultrasonic sensor. </p>
-<figure class="post__image post__image--center" ><img src="https://dhaslock.github.io/randomarq/media/posts/1/03.png" alt="" width="1276" height="559">
+<figure class="post__image post__image--center" ><img src="https://www.randomarq.es/media/posts/1/03.png" alt="" width="1276" height="559">
 <figcaption >just get the output from APin0</figcaption>
 </figure>
 <p>The value that we will get from the sensor, will be pased to a "larger than" component, to check if the distance detected is bigger than a value that we'll set up as the trigger for the lights. With this code, if the distance detected by the sensor is bigger than the one selected, we'll get a "true" - so the inputs connected will be getting a digital true - and the leds connected on those pins will be on. If the distance is smalles, it will return a "false" and the leds will go off. </p>
 <p>Add a "Uno Write" component to the canvas, and set up four digital inputs, two of them connected to a "1" state, so will be always on, and another two connected to the "larger than" output. In this example, we'll be using pins 8 and 11 as "always on", and pins 9 and 10 as controlled by the ultrasonic sensor.</p>
-<figure class="post__image post__image--center" ><img src="https://dhaslock.github.io/randomarq/media/posts/1/04.png" alt="" width="1276" height="559">
+<figure class="post__image post__image--center" ><img src="https://www.randomarq.es/media/posts/1/04.png" alt="" width="1276" height="559">
 <figcaption >Use a "larger than" component to set the rule for on and off for the leds selected</figcaption>
 </figure>
-<figure class="post__image post__image--center" ><img src="https://dhaslock.github.io/randomarq/media/posts/1/05.png" alt="" width="1276" height="559">
+<figure class="post__image post__image--center" ><img src="https://www.randomarq.es/media/posts/1/05.png" alt="" width="1276" height="559">
 <figcaption >Setup a "Uno write" with four digital outputs, two set to 1 (always one) and two connected to the previous component</figcaption>
 </figure>
 <p>Once we have our snippet of code configured, add to the canvas a "Code Generator" component, and connect the input with the "out" output from the "Uno Write", and set up a path for the folder with the arduino code to be saved in in the "path" input. If you connect a panel to the output of the component, you should be seeing the arduino code generated.</p>
-<figure class="post__image post__image--center" ><img src="https://dhaslock.github.io/randomarq/media/posts/1/06.png" alt="" width="1276" height="559">
+<figure class="post__image post__image--center" ><img src="https://www.randomarq.es/media/posts/1/06.png" alt="" width="1276" height="559">
 <figcaption >Connect the "code generator" and get the arduino code.</figcaption>
 </figure>
-<figure class="post__image post__image--center" ><img src="https://dhaslock.github.io/randomarq/media/posts/1/07.png" alt="" width="4152" height="2896">
+<figure class="post__image post__image--center" ><img src="https://www.randomarq.es/media/posts/1/07.png" alt="" width="4152" height="2896">
 <figcaption >Definición completa. <a title="DESCARGAR ARCHIVO GH" href="https://www.dropbox.com/s/dy3vshj0u0pr8bd/ultrasonic.gh?dl=0" target="_blank" rel="noopener noreferrer">DESCARGAR ARCHIVO GH</a></figcaption>
 </figure>
 <p>At this point, in the folder that you defined, you should have two files, one with the name of the folder and extension .ino, and another one called Ffcasts.h. If this is the case, you can already close grasshopper and Rhino, we've finished our programming with it. If you dont have both files, check the grasshopper definition, that everything is connected the right way and that the port is open and the components working.</p>
@@ -84,8 +84,8 @@
 <p>Here you can see a video showing this sketch at work:</p>
 <figure class="post__video"><iframe width="560" height="314" src="https://www.youtube.com/embed/VV3lDb4nv60" allowfullscreen="allowfullscreen" ></iframe></figure>
 <p>Here you can see how you have to connect the sensor to the arduino:</p>
-<p><img class="post__image--center" src="https://dhaslock.github.io/randomarq/media/posts/1/hc-sr04-with-arduino.jpg" alt="" width="621" height="475">And here you can see the schematics of all the rig:</p>
-<p><img src="https://dhaslock.github.io/randomarq/media/posts/1/rig.jpg" alt="" width="2646" height="1698"></p>
+<p><img class="post__image--center" src="https://www.randomarq.es/media/posts/1/hc-sr04-with-arduino.jpg" alt="" width="621" height="475">And here you can see the schematics of all the rig:</p>
+<p><img src="https://www.randomarq.es/media/posts/1/rig.jpg" alt="" width="2646" height="1698"></p>
 <p> </p>
             ]]>
         </content>
