@@ -3,7 +3,7 @@
     <title>random[ ] - arquitectura y fabricación digital</title>
     <link href="https://dhaslock.github.io/randomarq/feed.xml" rel="self" />
     <link href="https://dhaslock.github.io/randomarq" />
-    <updated>2018-10-31T10:52:27+01:00</updated>
+    <updated>2018-11-04T17:57:06+01:00</updated>
     <author>
         <name>david serrano</name>
     </author>
@@ -16,8 +16,12 @@
         </author>
         <link href="https://dhaslock.github.io/randomarq/ultranosic-sensor-controlling-some-leds.html"/>
         <id>https://dhaslock.github.io/randomarq/ultranosic-sensor-controlling-some-leds.html</id>
+            <category term="Grasshopper"/>
+            <category term="Firefly"/>
+            <category term="ControlMAD"/>
+            <category term="Arduino"/>
 
-        <updated>2018-10-13T13:16:19+02:00</updated>
+        <updated>2018-11-04T17:55:01+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://dhaslock.github.io/randomarq/media/posts/1/featured.jpg" alt="" />
