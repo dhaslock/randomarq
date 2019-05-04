@@ -3,23 +3,78 @@
     <title>random[ ] - arquitectura y fabricación digital</title>
     <link href="https://dhaslock.github.io/randomarq/feed.xml" rel="self" />
     <link href="https://dhaslock.github.io/randomarq" />
-    <updated>2018-11-04T17:57:06+01:00</updated>
+    <updated>2019-05-04T21:02:06+02:00</updated>
     <author>
         <name>david serrano</name>
     </author>
     <id>https://dhaslock.github.io/randomarq</id>
 
     <entry>
+        <title>Sincronizar vistas en Revit (con dynamo)</title>
+        <author>
+            <name>david serrano</name>
+        </author>
+        <link href="https://dhaslock.github.io/randomarq/sincronizar-vistas-en-revit-con-dynamo.html"/>
+        <id>https://dhaslock.github.io/randomarq/sincronizar-vistas-en-revit-con-dynamo.html</id>
+
+        <updated>2019-05-04T20:35:59+02:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://dhaslock.github.io/randomarq/media/posts/6/02.JPG" alt="" />
+                    Hace unos días nos preguntaron si era posible tener en Revit algún comando que teniendo varias plantas abiertas a la vez, las pusiera todas&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <img src="https://dhaslock.github.io/randomarq/media/posts/6/02.JPG" alt="" />
+                <p>Hace unos días nos preguntaron si era posible tener en Revit algún comando que teniendo varias plantas abiertas a la vez, las pusiera todas en la misma posición y con el mismo nivel de zoom, para poder comparar diferentes plantas como si estuviéramos trabajando con capas de papel sulfurizado sobre nuestra mesa de dibujo, sin tener que usar la opción de "subyacente" del propio Revit. </p>
+<p><img src="https://dhaslock.github.io/randomarq/media/posts/6/01.JPG" alt="" width="2560" height="1080"></p>
+<p><img src="https://dhaslock.github.io/randomarq/media/posts/6/02.JPG" alt="" width="2560" height="1080"></p>
+<p>La respuesta, como para muchas de las preguntas que nos realizan, debía de estar en Dynamo, aunque con un gran "pero". Porque para poder trabajar con las vistas abiertas, no tenemos herramientas directamente en Dynamo, sino que hay que pasar a través del API de Revit, pero afortunadamente tenemos la opción de programar nuestros propios componentes dentro de Dynamo con Python, así que después de trastear un rato con ello, llegamos a la pequeña pieza de código que nos daba la solución buscada:</p>
+<p><code></code></p>
+<pre>import clr
+
+clr.AddReference('RevitAPIUI')
+from Autodesk.Revit.UI import *
+
+clr.AddReference('RevitServices')
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+from RevitServices.Transactions import TransactionManager
+
+doc = DocumentManager.Instance.CurrentDBDocument
+uidoc=DocumentManager.Instance.CurrentUIApplication.ActiveUIDocument
+
+for uv in uidoc.GetOpenUIViews():
+	if uv.ViewId.Equals( doc.ActiveView.Id ):
+		uiview = uv
+
+rect = uiview.GetZoomCorners()
+exit = []
+for view in uidoc.GetOpenUIViews():
+	if not view.ViewId.Equals( doc.ActiveView.Id ):
+		view.ZoomAndCenterRectangle(rect[0], rect[1])
+		exit.append(view.ViewId)
+
+OUT = exit
+    </pre>
+<p><code></code></p>
+<p><img src="https://dhaslock.github.io/randomarq/media/posts/6/03.JPG" alt="" width="1122" height="477"></p>
+<p>Tan sólo hay que copiar el código anterior en un componente de python en una nueva definición de dynamo y guardarla en nuestra carpeta de scripts. En la imagen anterior podéis ver una serie de componentes adicionales que nos permiten completar el script mostrando una lista con los nombres de las vistas actualizadas en cada ejecución. </p>
+<p><img src="https://dhaslock.github.io/randomarq/media/posts/6/04.JPG" alt="" width="337" height="725"></p>
+<p>A continuación podéis ver el script en funcionamiento:</p>
+<figure class="post__video"><iframe width="560" height="314" src="https://www.youtube.com/embed/cdZ8D6ljrTE" allowfullscreen="allowfullscreen" ></iframe></figure>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
         <title>Ultrasonic sensor controlling some LEDs</title>
         <author>
-            <name>english</name>
+            <name>david serrano</name>
         </author>
         <link href="https://dhaslock.github.io/randomarq/ultranosic-sensor-controlling-some-leds.html"/>
         <id>https://dhaslock.github.io/randomarq/ultranosic-sensor-controlling-some-leds.html</id>
-            <category term="Grasshopper"/>
-            <category term="Firefly"/>
-            <category term="ControlMAD"/>
-            <category term="Arduino"/>
 
         <updated>2018-11-04T17:55:01+01:00</updated>
             <summary>
